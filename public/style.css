@@ -1,0 +1,100 @@
+
+/* Stopwatch  */
+
+.stopwatch-container {
+    text-align: center;
+}
+
+.circle {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #ff8a00, #e52e71);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: 24px;
+    color: #fff;
+}
+
+.gradient-button {
+    background: linear-gradient(to right, #ff8a00, #e52e71);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.gradient-button:hover {
+    transform: scale(1.1);
+}
+
+.buttons button:focus {
+    outline: none;
+}
+
+/* CountDown Timer */
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.timer-container {
+    text-align: center;
+}
+
+.circlee {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #ff8a00, #e52e71);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.gradient-buttonn {
+    background: linear-gradient(to right, #ff8a00, #e52e71);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.gradient-buttonn:hover {
+    transform: scale(1.1);
+}
+
+.buttonss button:focus {
+    outline: none;
+}
+
+.dropdownn {
+    margin-bottom: 20px;
+}
+
+.dropdownn select {
+    padding: 10px;
+    font-size: 16px;
+}
+
+
