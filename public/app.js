@@ -1,95 +1,103 @@
 
-// StopWatch 
+// ********* StopWatch **********
 
 var timer;
 var isRunning = false;
-var seconds = 0;
-var minutes = 0;
-var hours = 0;
+var initialTime = 0;
 
-function startStop() {
-    if (isRunning) {
-        clearInterval(timer);
-        document.getElementById("startStop").textContent = "Resume";
-    } else {
-        timer = setInterval(updateTime, 1000);
-        document.getElementById("startStop").textContent = "Stop";
+function startTimer(duration) {
+  initialTime = duration;
+  var display = document.getElementById('display');
+  var timerEnd = Date.now() + initialTime * 1000;
+
+  function updateDisplay() {
+    var remainingTime = Math.max((timerEnd - Date.now()) / 1000, 0);
+    var minutes = Math.floor(remainingTime / 60);
+    var seconds = Math.floor(remainingTime % 60);
+    display.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    if (remainingTime <= 0) {
+      clearInterval(timer);
+      display.textContent = "Time's up!";
     }
-    isRunning = !isRunning;
+  }
+
+  updateDisplay();
+  timer = setInterval(updateDisplay, 1000);
 }
 
-function reset() {
+document.querySelectorAll('.buttons button').forEach(function(button) {
+  button.addEventListener('click', function() {
     clearInterval(timer);
-    document.getElementById("startStop").textContent = "Start";
     isRunning = false;
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-    updateTime();
-}
+    var time = parseInt(button.getAttribute('data-time'));
+    startTimer(time);
+    isRunning = true;
+  });
+});
 
-function updateTime() {
-    seconds++;
-    if (seconds === 60) {
-        seconds = 0;
-        minutes++;
-        if (minutes === 60) {
-            minutes = 0;
-            hours++;
-        }
-    }
+var resetButton = document.getElementById('resetButton');
 
-    const display = document.getElementById("display");
-    display.textContent = `${jet(hours)}:${jet(minutes)}:${jet(seconds)}`;
-}
+resetButton.addEventListener('click', function() {
+  clearInterval(timer);
+  document.getElementById('display').textContent = "00:00";
+  isRunning = false;
+});
 
-function jet(value) {
-    return value < 10 ? `0${value}` : value;
-}
 
-// Countdown Timer
+// ************ CountDown Timer ************
 
-var timerr;
-var totalTime = 300;
+
+var stopwatchTimer;
 var isRunningg = false;
+var seconds = 0;
 
-function startTimer() {
-    if (!isRunningg) {
-        timerr = setInterval(updateTimer, 1000);
-        document.getElementById("start").textContent = "Pause";
-    } else {
-        clearInterval(timerr);
-        document.getElementById("start").textContent = "Resume";
-    }
-    isRunning = !isRunning;
+document.getElementById('startResumeButton').addEventListener('click', function() {
+  if (isRunningg) {
+    clearInterval(stopwatchTimer);
+    this.textContent = 'Resume';
+  } else {
+    stopwatchTimer = setInterval(runStopwatch, 1000);
+    this.textContent = 'Pause';
+  }
+  isRunningg = !isRunningg;
+});
+
+document.getElementById('resetButtonn').addEventListener('click', function() {
+  clearInterval(stopwatchTimer);
+  document.getElementById('displayy').textContent = '00:00:00';
+  isRunningg = false;
+  document.getElementById('startResumeButton').textContent = 'Start';
+  seconds = 0;
+  clearLaps();
+});
+
+function runStopwatch() {
+  seconds++;
+  var hours = Math.floor(seconds / 3600);
+  var minutes = Math.floor((seconds % 3600) / 60);
+  var remainingSeconds = seconds % 60;
+  document.getElementById('displayy').textContent =
+    (hours < 10 ? '0' : '') + hours + ':' +
+    (minutes < 10 ? '0' : '') + minutes + ':' +
+    (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
 }
 
-function resetTimer() {
-    clearInterval(timerr);
-    isRunning = false;
-    totalTime = parseInt(document.getElementById("durationn").value, 10);
-    updateDisplay();
-    document.getElementById("start").textContent = "Start";
+function clearLaps() {
+  var lapsList = document.getElementById('laps');
+  lapsList.innerHTML = '';
 }
 
-function updateTimer() {
-    if (totalTime > 0) {
-        totalTime--;
-        updateDisplay();
-    } else {
-        clearInterval(timerr);
-        alert("Time's up!");
-        document.getElementById("start").textContent = "Start";
-        isRunning = false;
-    }
+function addLap() {
+  var lapsList = document.getElementById('laps');
+  var lapTime = document.getElementById('displayy').textContent;
+  var lapItem = document.createElement('li');
+  lapItem.textContent = `Lap ${lapsList.children.length + 1}: ${lapTime}`;
+  lapsList.appendChild(lapItem);
 }
 
-function updateDisplay() {
-    var minutes = Math.floor(totalTime / 60);
-    var seconds = totalTime % 60;
-    document.getElementById("displayy").textContent = `${pad(minutes)}:${pad(seconds)}`;
-}
-
-function pad(value) {
-    return value < 10 ? `0${value}` : value;
-}
+document.getElementById('lapsButton').addEventListener('click', function() {
+  if (isRunningg) {
+    addLap();
+  }
+});
